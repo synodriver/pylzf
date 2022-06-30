@@ -1,0 +1,2 @@
+recursive-include pylzf  *
+recursive-include liblzf  *

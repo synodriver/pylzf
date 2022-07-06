@@ -14,7 +14,10 @@ cpdef inline bytes compress(const uint8_t[::1] data, Py_ssize_t output_size = 0)
     cdef bytes out = PyBytes_FromStringAndSize(NULL, output_size)
     if <void*>out == NULL:
         raise MemoryError
-    cdef unsigned int ret = lzf_compress(<void*>&data[0],<unsigned int> input_size, <void*> PyBytes_AS_STRING(out),<unsigned int> output_size)
+    cdef unsigned int ret
+    cdef void* out_ptr = <void*> PyBytes_AS_STRING(out)
+    with nogil:
+        ret = lzf_compress(<void*>&data[0],<unsigned int> input_size, out_ptr, <unsigned int> output_size)
     if ret == 0:
         raise ValueError
     return out[:ret]
@@ -24,21 +27,28 @@ cpdef inline bytes decompress(const uint8_t[::1] data, unsigned int outlen):
     cdef bytes out = PyBytes_FromStringAndSize(NULL, outlen)
     if <void*>out == NULL:
         raise MemoryError
-    cdef unsigned int ret = lzf_decompress(<void*>&data[0],<unsigned int> input_size, <void*> PyBytes_AS_STRING(out), outlen)
+    cdef unsigned int ret
+    cdef void* out_ptr = <void*> PyBytes_AS_STRING(out)
+    with nogil:
+        ret = lzf_decompress(<void*>&data[0],<unsigned int> input_size, out_ptr, outlen)
     if ret == 0:
         raise ValueError
     return out[:ret]
 
 cpdef inline unsigned int compress_into(const uint8_t[::1] data, uint8_t[::1] out) except 0:
-    cdef unsigned int ret = lzf_compress(<void *> &data[0], <unsigned int> data.shape[0],
-                                           <void *> &out[0], <unsigned int> out.shape[0])
+    cdef unsigned int ret
+    with nogil:
+        ret = lzf_compress(<void *> &data[0], <unsigned int> data.shape[0],
+                                            <void *> &out[0], <unsigned int> out.shape[0])
     if ret == 0:
         raise ValueError
     return ret
 
 cpdef inline unsigned int decompress_into(const uint8_t[::1] data, uint8_t[::1] out) except 0:
-    cdef unsigned int ret = lzf_decompress(<void *> &data[0], <unsigned int> data.shape[0],
-                                           <void *> &out[0], <unsigned int> out.shape[0])
+    cdef unsigned int ret
+    with nogil:
+        ret = lzf_decompress(<void *> &data[0], <unsigned int> data.shape[0],
+                                            <void *> &out[0], <unsigned int> out.shape[0])
     if ret == 0:
         raise ValueError
     return ret

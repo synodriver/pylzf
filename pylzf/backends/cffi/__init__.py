@@ -1,7 +1,7 @@
 """
 Copyright (c) 2008-2021 synodriver <synodriver@gmail.com>
 """
-from pylzf.backends.cffi._lzf_cffi import ffi, lib
+from pylzf.backends.cffi._lzf import ffi, lib
 
 
 def compress(data: bytes, outlen: int = None) -> bytes:

@@ -5,7 +5,7 @@ import sys
 from random import choice, randint
 from unittest import TestCase
 
-sys.path.append("..")
+sys.path.append(".")
 import os
 
 os.environ["LZF_USE_CFFI"] = "1"

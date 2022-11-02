@@ -28,7 +28,7 @@ int version()
 """
 
 ffibuilder.set_source(
-    "pylzf.backends.cffi._lzf_cffi",
+    "pylzf.backends.cffi._lzf",
     source,
     sources=["./liblzf/lzf_c.c", "./liblzf/lzf_d.c"],
     include_dirs=["./liblzf"],

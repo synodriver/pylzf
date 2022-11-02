@@ -35,7 +35,7 @@ cpdef inline bytes decompress(const uint8_t[::1] data, unsigned int outlen):
         raise ValueError
     return out[:ret]
 
-cpdef inline unsigned int compress_into(const uint8_t[::1] data, uint8_t[::1] out) except 0:
+cpdef inline unsigned int compress_into(const uint8_t[::1] data, uint8_t[::1] out) except? 0:
     cdef unsigned int ret
     with nogil:
         ret = lzf_compress(<void *> &data[0], <unsigned int> data.shape[0],
@@ -44,7 +44,7 @@ cpdef inline unsigned int compress_into(const uint8_t[::1] data, uint8_t[::1] ou
         raise ValueError
     return ret
 
-cpdef inline unsigned int decompress_into(const uint8_t[::1] data, uint8_t[::1] out) except 0:
+cpdef inline unsigned int decompress_into(const uint8_t[::1] data, uint8_t[::1] out) except? 0:
     cdef unsigned int ret
     with nogil:
         ret = lzf_decompress(<void *> &data[0], <unsigned int> data.shape[0],

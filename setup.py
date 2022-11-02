@@ -32,8 +32,8 @@ class build_ext_compiler_check(build_ext):
 
 extensions = [
     Extension(
-        "pylzf.backends.cython._lzf_cy",
-        ["pylzf/backends/cython/_lzf_cy.pyx", "./liblzf/lzf_c.c", "./liblzf/lzf_d.c"],
+        "pylzf.backends.cython._lzf",
+        ["pylzf/backends/cython/_lzf.pyx", "./liblzf/lzf_c.c", "./liblzf/lzf_d.c"],
         include_dirs=["./liblzf"],
     ),
 ]
